@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"www.mixaler.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="一个高性能的线程安全的哈希表1 为什么需要哈希表我们用计算机中来存储处理数据。要处理数据，首先要将数据存储在计算机中。那么问题来了，数据在计算机中是如何存储的，为了更加方便的处理数据，我们该选用何种方式存储数据？ 根据计算机的结构，我们可以用两种方式来存储数据。即连续的数据存储和非连续的数据存储。 在一个连续空间中存储数据需要设定空间的大小。在现代编程语言中不需要我们手动计算空间大小，我们只需要告">
+  <meta name="description" content="1 为什么需要哈希表我们用计算机中来存储处理数据。要处理数据，首先要将数据存储在计算机中。那么问题来了，数据在计算机中是如何存储的，为了更加方便的处理数据，我们该选用何种方式存储数据？ 根据计算机的结构，我们可以用两种方式来存储数据。即连续的数据存储和非连续的数据存储。 在一个连续空间中存储数据需要设定空间的大小。在现代编程语言中不需要我们手动计算空间大小，我们只需要告知编译器数据类型和该类型数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个高性能的线程安全的哈希表">
-<meta property="og:url" content="http://www.mixaler.com/2021/02/13/%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/index.html">
+<meta property="og:url" content="http://www.mixaler.com/2021/02/13/%E4%B8%80%E4%B8%AA%E9%AB%98%E6%80%A7%E8%83%BD%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8/index.html">
 <meta property="og:site_name" content="MIXALER--blog">
-<meta property="og:description" content="一个高性能的线程安全的哈希表1 为什么需要哈希表我们用计算机中来存储处理数据。要处理数据，首先要将数据存储在计算机中。那么问题来了，数据在计算机中是如何存储的，为了更加方便的处理数据，我们该选用何种方式存储数据？ 根据计算机的结构，我们可以用两种方式来存储数据。即连续的数据存储和非连续的数据存储。 在一个连续空间中存储数据需要设定空间的大小。在现代编程语言中不需要我们手动计算空间大小，我们只需要告">
+<meta property="og:description" content="1 为什么需要哈希表我们用计算机中来存储处理数据。要处理数据，首先要将数据存储在计算机中。那么问题来了，数据在计算机中是如何存储的，为了更加方便的处理数据，我们该选用何种方式存储数据？ 根据计算机的结构，我们可以用两种方式来存储数据。即连续的数据存储和非连续的数据存储。 在一个连续空间中存储数据需要设定空间的大小。在现代编程语言中不需要我们手动计算空间大小，我们只需要告知编译器数据类型和该类型数据">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-13T09:50:45.974Z">
-<meta property="article:modified_time" content="2021-06-12T06:07:24.076Z">
+<meta property="article:modified_time" content="2021-06-12T06:15:41.708Z">
 <meta property="article:author" content="MIXALER">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://www.mixaler.com/2021/02/13/%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/">
+<link rel="canonical" href="http://www.mixaler.com/2021/02/13/%E4%B8%80%E4%B8%AA%E9%AB%98%E6%80%A7%E8%83%BD%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8/">
 
 
 <script id="page-configurations">
@@ -150,7 +150,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://www.mixaler.com/2021/02/13/%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/">
+    <link itemprop="mainEntityOfPage" href="http://www.mixaler.com/2021/02/13/%E4%B8%80%E4%B8%AA%E9%AB%98%E6%80%A7%E8%83%BD%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -180,7 +180,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-12 14:07:24" itemprop="dateModified" datetime="2021-06-12T14:07:24+08:00">2021-06-12</time>
+                <time title="修改时间：2021-06-12 14:15:41" itemprop="dateModified" datetime="2021-06-12T14:15:41+08:00">2021-06-12</time>
               </span>
 
           <br>
@@ -208,7 +208,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="一个高性能的线程安全的哈希表"><a href="#一个高性能的线程安全的哈希表" class="headerlink" title="一个高性能的线程安全的哈希表"></a>一个高性能的线程安全的哈希表</h2><h2 id="1-为什么需要哈希表"><a href="#1-为什么需要哈希表" class="headerlink" title="1 为什么需要哈希表"></a>1 为什么需要哈希表</h2><p>我们用计算机中来存储处理数据。要处理数据，首先要将数据存储在计算机中。那么问题来了，数据在计算机中是如何存储的，为了更加方便的处理数据，我们该选用何种方式存储数据？</p>
+        <h2 id="1-为什么需要哈希表"><a href="#1-为什么需要哈希表" class="headerlink" title="1 为什么需要哈希表"></a>1 为什么需要哈希表</h2><p>我们用计算机中来存储处理数据。要处理数据，首先要将数据存储在计算机中。那么问题来了，数据在计算机中是如何存储的，为了更加方便的处理数据，我们该选用何种方式存储数据？</p>
 <p>根据计算机的结构，我们可以用两种方式来存储数据。即连续的数据存储和非连续的数据存储。</p>
 <p>在一个连续空间中存储数据需要设定空间的大小。在现代编程语言中不需要我们手动计算空间大小，我们只需要告知编译器数据类型和该类型数据存储的数量即可。编译器会自动地计算除数据类型所需要的空间并乘以数量得到所需总空间的大小。在 c 语言中，这种存储方式被称为数组。以数组的方式存储数据一个明显的好处是定位很快。因为可以通过下标的方式来得到存放地址从而访问数据。时间复杂度为 O(1)。除此之外还有空间利用率高的优点。因为没有存放除数据以外的辅助信息。</p>
 <p>但是上述方式也存在明显的缺点。那就是事先必须规定数据的存放数量。这在很多时候是无法获知的。如果分配的存储数量远远大于需要处理的数据数量，就存在空间浪费，如果分配的空间不够，则无法完成数据的处理。除此之外，数据的删除和插入也相对麻烦。删除和插入任意一个数据需要将后面的数据依次向前和向后移动一个位置，删除和插入的时间复杂度为 O(n)。</p>
@@ -233,6 +233,13 @@
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" rel="next" title="多线程编程入门之多线程矩阵乘法">
+      多线程编程入门之多线程矩阵乘法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -290,7 +297,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E9%AB%98%E6%80%A7%E8%83%BD%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">一个高性能的线程安全的哈希表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-number">2.</span> <span class="nav-text">1 为什么需要哈希表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%93%88%E5%B8%8C%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">2 哈希表的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%93%88%E5%B8%8C%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">3 哈希表的实现方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%9F%BA%E4%BA%8E%E5%93%88%E5%B8%8C%E6%A1%B6%E5%92%8C%E9%99%A4%E7%95%99%E5%8F%96%E4%BD%99%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.</span> <span class="nav-text">4 基于哈希桶和除留取余法实现的哈希表示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-number">6.</span> <span class="nav-text">5 线程安全的哈希表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-stl-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">7.</span> <span class="nav-text">6 stl 哈希表实现原理</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">1 为什么需要哈希表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%93%88%E5%B8%8C%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">2 哈希表的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%93%88%E5%B8%8C%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">3 哈希表的实现方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%9F%BA%E4%BA%8E%E5%93%88%E5%B8%8C%E6%A1%B6%E5%92%8C%E9%99%A4%E7%95%99%E5%8F%96%E4%BD%99%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8%E7%A4%BA%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">4 基于哈希桶和除留取余法实现的哈希表示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-number">5.</span> <span class="nav-text">5 线程安全的哈希表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-stl-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">6 stl 哈希表实现原理</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -304,7 +311,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -342,13 +349,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">7k</span>
+    <span title="站点总字数">27k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">6 分钟</span>
+    <span title="站点阅读时长">24 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
